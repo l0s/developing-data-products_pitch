@@ -1,14 +1,17 @@
 ---
-title       : Identifying Undervalued Advertising Segments
-subtitle    : 
-author      :
-job         : 
-framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
-highlighter : highlight.js  # {highlight.js, prettify, highlight}
-hitheme     : tomorrow      # 
-widgets     : []            # {mathjax, quiz, bootstrap}
-mode        : selfcontained # {standalone, draft}
-knit        : slidify::knit2slides
+title: "Identifying Undervalued Advertising Segments"
+author:
+highlighter: highlight.js
+output:
+  html_document:
+    keep_md: yes
+job: null
+knit: slidify::knit2slides
+mode: selfcontained
+hitheme: tomorrow
+subtitle:
+framework: io2012
+widgets: []
 ---
 
 
@@ -62,8 +65,8 @@ summary( df[ , 2:length( df ) ] )
 
 ## Conclusion
 
-Because the monthly searches do not follow the same distribution as daily cost
-there may be undervalued search terms. This application will help identify those
+Because the search frequencies do not follow the same distribution as cost there
+may be undervalued search terms. This application will help identify those
 segments.
 
 https://macasaet.shinyapps.io/developing-data-products_pitch/
