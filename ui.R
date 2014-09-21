@@ -35,7 +35,13 @@ shinyUI( fluidPage(
           p( 'Although normalising the axes on log scales makes it easier to ',
              'view the data, it obscures the actual values. Hover over or ',
              'click on individual points to see the actual cost and search ',
-             'counts as well as the keywords associated with those values.' )
+             'counts as well as the keywords associated with those values.' ),
+          p( 'The motivation for this application is described in more detail ',
+             'in the ',
+             a( 'pitch',
+                href='https://l0s.github.io/developing-data-products_pitch/',
+                target='_blank' ),
+             '.' )
         )
       )
     )
