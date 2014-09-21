@@ -3,6 +3,7 @@ library( ggvis )
 
 shinyUI( fluidPage(
 
+  # TODO documentation
   titlePanel( 'Keyword Bidding Data '),
 
   sidebarLayout(

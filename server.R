@@ -42,6 +42,7 @@ shinyServer( function( input, output ) {
     record$x
   }
   vis <- reactive( {
+    # TODO sensible labels
     df %>%
       ggvis( x=~log( 1 + est_daily_cost ), y=~log( 1 + local_monthly_searches ) ) %>%
       layer_points( fill=~factor( clusters()$cluster ), size.hover := 200 ) %>%
