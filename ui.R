@@ -1,31 +1,22 @@
-
-# This is the user-interface definition of a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
-
 library( shiny )
+library( ggvis )
 
+shinyUI( fluidPage(
 
-shinyUI(fluidPage(
+  titlePanel( 'Keyword Bidding Data '),
 
-  # Application title
-  titlePanel("Keyword Bidding Data"),
-
-  # Sidebar with a slider input for number of bins
   sidebarLayout(
     sidebarPanel(
-      sliderInput("clusters",
-                  "Number of clusters:",
-                  min = 1,
-                  max = 12,
-                  value = 4)
+      sliderInput( 'clusters',
+                   'Number of clusters:',
+                   min = 1,
+                   max = 16,
+                   value = 4 )
     ),
 
-    # Show a plot of the generated distribution
     mainPanel(
-      plotOutput("plot")
+      #plotOutput( 'plot' )
+      ggvisOutput( 'plot' )
     )
   )
-))
+) )
