@@ -1,26 +1,96 @@
 ---
-title       : Advertising Keyword Pitch
+title       : Identifying Undervalued Advertising Segments
 subtitle    : 
-author      : Carlos Macasaet
+author      :
 job         : 
-framework   : html5rocks        # {io2012, html5slides, shower, dzslides, ...}
-highlighter : Google Prettify  # {highlight.js, prettify, highlight}
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
 widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ---
 
-## Read-And-Delete
+```{r echo=FALSE, message=FALSE}
+library( dplyr )
+library( wordcloud )
 
-1. Edit YAML front matter
-2. Write using R Markdown
-3. Use an empty line followed by three dashes to separate slides!
+if( !file.exists( 'data' ) )
+{
+  dir.create( 'data' )
+}
+if( !file.exists( 'data/US-market' ) )
+{
+  # TODO download the other two files
+  if( !file.exists( 'data/bids-dataset-1.zip' ) )
+  {
+    download.file( 'https://open-advertising-dataset.googlecode.com/files/bids-dataset-1.zip',
+                   destfile='data/bids-dataset-1.zip', method='curl' )
+    # TODO validate SHA sum
+  }
+  # TODO unzip the other two files
+  unzip( 'data/bids-dataset-1.zip', exdir='data' )
+}
+
+# TODO read the other files
+df <-
+  read.csv( 'data/US-market/keyword_stats_20120531_0148831.csv',
+            na.strings='-' )
+# TODO use nicer column names
+colnames( df ) <-
+  c( 'keyword', 'global_monthly_searches', 'est_avg_cpc', 'est_ad_pos',
+     'est_daily_clicks', 'est_daily_cost', 'local_monthly_searches' )
+df$est_daily_cost <-
+  as.numeric( gsub( ',', '', df$est_daily_cost ) )
+# TODO parse and add date
+df <-
+  filter( df, !is.na( global_monthly_searches ),
+          !is.na( local_monthly_searches ) )
+```
+
+## Summary
+
+Search engines allow advertisers to bid on keywords and groups of keywords. Some
+of these search terms are more expensive than others. Some terms are submitted
+more often than others.
+
+What are the most cost-effective keywords on which to bid?
+
+--- .class #id
+
+## Advertising Keywords
+```{r echo=FALSE, warning=FALSE, fig.cap='Common Keywords'}
+wordcloud( unlist( strsplit( as.character( df$keyword ), ' ' ) ) )
+```
+
+--- .class #id
+
+## Advertising Bidding Data
+Notice the skewed distribution of continuous variables.
+```{r}
+summary( df[ , 2:length( df ) ] )
+```
 
 --- .class #id 
 
-## Slide 2
+## Distributions Illustrated
 
+```{r echo=FALSE}
+par( mfrow=c( 3, 2 ) )
+hist( log( df$est_avg_cpc + 1 ), main='Cost per Click (log scale)' )
+hist( df$est_ad_pos, main='Estimated Ad Position' )
+hist( log( df$est_daily_clicks + 1), main='Estimated Daily Clicks (log scale)' )
+hist( log( df$est_daily_cost + 1 ), main='Estimated Daily Cost (log scale)' )
+hist( log( df$local_monthly_searches + 1 ),
+      main='Local Monthly Searches (log scale)' )
+```
 
+--- .class #id 
 
+## Conclusion
 
+Because the search frequencies do not follow the same distribution as cost there
+may be undervalued search terms. This application will help identify those
+segments.
+
+https://macasaet.shinyapps.io/developing-data-products_pitch/
